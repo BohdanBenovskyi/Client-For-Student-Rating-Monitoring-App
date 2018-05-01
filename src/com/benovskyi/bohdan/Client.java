@@ -2,6 +2,7 @@ package com.benovskyi.bohdan;
 
 import com.trolltech.qt.gui.QApplication;
 import com.trolltech.qt.gui.QWidget;
+import javax.swing.JOptionPane;
 
 public class Client extends QWidget{
 
@@ -24,10 +25,16 @@ public class Client extends QWidget{
 	
 	public void login() {
 		String login = uiLogin.edtLogin.text();
-		System.out.println("login: " + login);
-		
 		String password = uiLogin.edtPassword.text();
-		System.out.println("password: " + password);
+		
+		if(login.isEmpty() || password.isEmpty()) {
+			System.out.println("Some field are empty! Please enter login or password!");
+			JOptionPane.showMessageDialog(null, "Some field are empty!\nPlease enter login or password!", "Warning", JOptionPane.WARNING_MESSAGE);
+		}
+		else {
+			System.out.println("login: " + login);
+			System.out.println("password: " + password);
+		}
 	}
 
 }
