@@ -5,6 +5,7 @@
  **
  ** WARNING! All changes made in this file will be lost when recompiling ui file!
  ********************************************************************************/
+package com.benovskyi.bohdan;
 import com.trolltech.qt.core.*;
 import com.trolltech.qt.gui.*;
 
