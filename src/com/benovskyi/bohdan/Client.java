@@ -1,7 +1,9 @@
 package com.benovskyi.bohdan;
 
+import com.trolltech.qt.gui.QAction;
 import com.trolltech.qt.gui.QApplication;
 import com.trolltech.qt.gui.QMainWindow;
+import com.trolltech.qt.gui.QMenu;
 
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
@@ -54,6 +56,7 @@ public class Client extends QMainWindow {
 		QApplication.initialize(args);
 
 		Client client = new Client();
+		
 
 		QApplication.execStatic();
 	}
@@ -61,6 +64,7 @@ public class Client extends QMainWindow {
 	public void login() {
 		String login = uiLogin.edtLogin.text();
 		String password = uiLogin.edtPasswod.text();
+		String institutes;
 
 		if (login.isEmpty() || password.isEmpty()) {
 			JOptionPane.showMessageDialog(null, "Some field are empty!\nPlease enter login or password!", "Warning",
@@ -72,18 +76,29 @@ public class Client extends QMainWindow {
 			out.println("login");
 			out.println(login);
 			out.println(password);
-			
+
 			try {
-				if(in.readLine().equals("OK")) {
+				if (in.readLine().equals("OK")) {
 					System.out.println("All is fine");
 					hide();
 					uiForm.setupUi(this);
 					show();
+					
+					out.println("inst");
+					if(in.readLine().equals("inst")) {
+						institutes = in.readLine();
+						System.out.println("Institutes: " + institutes);
+					}
+					
+					QMenu instit = new QMenu("Інститути");
+					QAction quit = new QAction("&Quit", this);
+					
+					
 				}
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
-			//out.println("END");
+			// out.println("END");
 		}
 	}
 
