@@ -1,7 +1,7 @@
 package com.benovskyi.bohdan;
 
 import com.trolltech.qt.gui.QApplication;
-import com.trolltech.qt.gui.QWidget;
+import com.trolltech.qt.gui.QMainWindow;
 
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
@@ -15,9 +15,10 @@ import java.net.UnknownHostException;
 
 import javax.swing.JOptionPane;
 
-public class Client extends QWidget {
+public class Client extends QMainWindow {
 
 	public Ui_MainLogin uiLogin = new Ui_MainLogin();
+	public Ui_MainForm uiForm = new Ui_MainForm();
 	public InetAddress addr;
 	public Socket socket;
 	private BufferedReader in;
@@ -59,7 +60,7 @@ public class Client extends QWidget {
 
 	public void login() {
 		String login = uiLogin.edtLogin.text();
-		String password = uiLogin.edtPassword.text();
+		String password = uiLogin.edtPasswod.text();
 
 		if (login.isEmpty() || password.isEmpty()) {
 			JOptionPane.showMessageDialog(null, "Some field are empty!\nPlease enter login or password!", "Warning",
@@ -75,6 +76,9 @@ public class Client extends QWidget {
 			try {
 				if(in.readLine().equals("OK")) {
 					System.out.println("All is fine");
+					hide();
+					uiForm.setupUi(this);
+					show();
 				}
 			} catch (IOException e) {
 				e.printStackTrace();
