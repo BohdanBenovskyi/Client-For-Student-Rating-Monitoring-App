@@ -56,7 +56,6 @@ public class Client extends QMainWindow {
 		QApplication.initialize(args);
 
 		Client client = new Client();
-		
 
 		QApplication.execStatic();
 	}
@@ -64,7 +63,7 @@ public class Client extends QMainWindow {
 	public void login() {
 		String login = uiLogin.edtLogin.text();
 		String password = uiLogin.edtPasswod.text();
-		String institutes;
+		String institutes = "";
 
 		if (login.isEmpty() || password.isEmpty()) {
 			JOptionPane.showMessageDialog(null, "Some field are empty!\nPlease enter login or password!", "Warning",
@@ -83,23 +82,42 @@ public class Client extends QMainWindow {
 					hide();
 					uiForm.setupUi(this);
 					show();
-					
+
 					out.println("inst");
-					if(in.readLine().equals("inst")) {
+					if (in.readLine().equals("inst")) {
 						institutes = in.readLine();
 						System.out.println("Institutes: " + institutes);
 					}
-					
+
+					//int hmi = countWordsUsingSplit(institutes);
+					//System.out.println("HMI: " + hmi);
+					String[] inst = institutes.split("\\s+");
+
 					QMenu instit = new QMenu("Інститути");
-					QAction quit = new QAction("&Quit", this);
+					QAction quit = new QAction("Вихід", this);
 					
-					
+					for(int i = 0; i < inst.length; i++) {
+						instit.addMenu(new QMenu(inst[i], this));
+						
+					}
+
+					uiForm.menuFile.addMenu(instit);
+					uiForm.menuFile.addAction(quit);
+					quit.triggered.connect(QApplication.instance(), "quit()");
 				}
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
 			// out.println("END");
 		}
+	}
+
+	public static int countWordsUsingSplit(String input) {
+		if (input == null || input.isEmpty()) {
+			return 0;
+		}
+		String[] words = input.split("\\s+");
+		return words.length;
 	}
 
 }
