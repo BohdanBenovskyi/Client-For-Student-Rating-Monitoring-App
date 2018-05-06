@@ -1,5 +1,6 @@
 package com.benovskyi.bohdan;
 
+import com.trolltech.qt.core.QObject;
 import com.trolltech.qt.gui.QAction;
 import com.trolltech.qt.gui.QApplication;
 import com.trolltech.qt.gui.QMainWindow;
@@ -26,6 +27,7 @@ public class Client extends QMainWindow {
 	public Socket socket;
 	private BufferedReader in;
 	private PrintWriter out;
+	public static QAction[] gr;
 
 	public Client() {
 		uiLogin.setupUi(this);
@@ -120,7 +122,7 @@ public class Client extends QMainWindow {
 					}
 					
 					/*WORK!!!!!*/
-					QAction[] gr = new QAction[allGroups.size() - inst.length];
+					gr = new QAction[allGroups.size() - inst.length];
 					boolean flag = false;
 					boolean flg = false;
 					int tmp = 0;
@@ -152,6 +154,12 @@ public class Client extends QMainWindow {
 					for (int l = 0; l < inst.length; l++) {
 						instit.addMenu(insti[l]);
 					}
+					
+					
+					for(int i = 0; i < gr.length; i++) {
+						gr[i].triggered.connect(this, "get_rating()");
+					}
+					
 
 					uiForm.menuFile.addMenu(instit);
 					uiForm.menuFile.addAction(quit);
@@ -187,5 +195,13 @@ public class Client extends QMainWindow {
 	
 	public void about_programQt() {
 		QApplication.aboutQt();
+	}
+	
+	public void get_rating() {
+		for(int i = 0; i < gr.length; i++) {
+			if(gr[i] == QObject.signalSender()) {
+				System.out.println("Slot group " + gr[i].text());
+			}
+		}
 	}
 }
