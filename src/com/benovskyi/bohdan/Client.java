@@ -126,13 +126,12 @@ public class Client extends QMainWindow {
 					int tmp = 0;
 					for(int i = 0; i < inst.length; i++) {
 						for(int j = 0; j < allGroups.size(); j++) {
-							if(allGroups.get(j) instanceof Integer)
-								if(!flag) {
+							if(allGroups.get(j) instanceof Integer && flag == false) {
 									allGroups.remove(j);
 									flag = true;
 									flg = true;
 									tmp = j;
-								}
+							}
 							if(allGroups.get(j) instanceof Integer) {
 								allGroups.remove(j);
 								tmp = j;
@@ -151,11 +150,24 @@ public class Client extends QMainWindow {
 					}
 
 					for (int l = 0; l < inst.length; l++) {
-						uiForm.menuFile.addMenu(insti[l]);
+						instit.addMenu(insti[l]);
 					}
 
+					uiForm.menuFile.addMenu(instit);
 					uiForm.menuFile.addAction(quit);
+					
+					QAction au = new QAction("About author", this);
+					QAction aqj = new QAction("About QtJambi", this);
+					QAction aq = new QAction("About Qt", this);
+					
+					uiForm.menuAbout.addAction(au);
+					uiForm.menuAbout.addAction(aqj);
+					uiForm.menuAbout.addAction(aq);
+					
 					quit.triggered.connect(QApplication.instance(), "quit()");
+					au.triggered.connect(this, "about_author()");
+					aqj.triggered.connect(this, "about_programJambi()");
+					aq.triggered.connect(this, "about_programQt()");
 				}
 			} catch (IOException e) {
 				e.printStackTrace();
@@ -164,13 +176,16 @@ public class Client extends QMainWindow {
 		}
 
 	}
-
-	public static int countWordsUsingSplit(String input) {
-		if (input == null || input.isEmpty()) {
-			return 0;
-		}
-		String[] words = input.split("\\s+");
-		return words.length;
+	
+	public void about_author() {
+		System.out.println("About Author implementation");
 	}
-
+	
+	public void about_programJambi() {
+		QApplication.aboutQtJambi();
+	}
+	
+	public void about_programQt() {
+		QApplication.aboutQt();
+	}
 }
