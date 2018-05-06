@@ -1,10 +1,13 @@
 package com.benovskyi.bohdan;
 
 import com.trolltech.qt.core.QObject;
+import com.trolltech.qt.gui.QAbstractItemView;
 import com.trolltech.qt.gui.QAction;
 import com.trolltech.qt.gui.QApplication;
+import com.trolltech.qt.gui.QHeaderView;
 import com.trolltech.qt.gui.QMainWindow;
 import com.trolltech.qt.gui.QMenu;
+import com.trolltech.qt.gui.QTableWidgetItem;
 
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
@@ -16,6 +19,8 @@ import java.net.InetAddress;
 import java.net.Socket;
 import java.net.UnknownHostException;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
 import javax.swing.JOptionPane;
 
@@ -198,10 +203,47 @@ public class Client extends QMainWindow {
 	}
 	
 	public void get_rating() {
+		String nameOfGroup = "";
+		String rating = "";
+		String[] rByPersons;
+		List<String> columnNames = Arrays.asList("Ім\'я", "Прізвище", "Група", "Інститут", "№студентського", "Рейтинг");
+		
 		for(int i = 0; i < gr.length; i++) {
 			if(gr[i] == QObject.signalSender()) {
 				System.out.println("Slot group " + gr[i].text());
+				nameOfGroup = gr[i].text();
 			}
+		}
+		
+		out.println("get_rating");
+		out.println(nameOfGroup);
+		
+		try {
+			if(in.readLine().equals("rating")) {
+				rating = in.readLine();
+				System.out.println(rating);
+				
+				uiForm.tableWidget.clearContents();
+				uiForm.tableWidget.setColumnCount(6);
+				uiForm.tableWidget.setShowGrid(true);
+				uiForm.tableWidget.setSelectionMode(QAbstractItemView.SelectionMode.NoSelection);
+				uiForm.tableWidget.setHorizontalHeaderLabels(columnNames);
+				//uiForm.tableWidget.horizontalHeader().setResizeMode(QHeaderView.ResizeMode.Stretch);
+				
+				rByPersons = rating.split("&");
+				
+				for(int i = 0; i < rByPersons.length; i++) {
+					uiForm.tableWidget.insertRow(i);
+					String[] rByString = rByPersons[i].split("\\s+");
+					for(int j = 0; j < rByString.length; j++) {
+						uiForm.tableWidget.setItem(i, j, new QTableWidgetItem(rByString[j]));
+					}
+				}
+				uiForm.tableWidget.horizontalHeader().setStretchLastSection(true);
+				uiForm.tableWidget.resizeColumnsToContents();
+			}
+		} catch (IOException e) {
+			e.printStackTrace();
 		}
 	}
 }
