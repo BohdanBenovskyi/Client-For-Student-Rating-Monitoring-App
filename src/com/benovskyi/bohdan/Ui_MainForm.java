@@ -27,7 +27,7 @@ public class Ui_MainForm implements com.trolltech.qt.QUiForm<QMainWindow> {
 
 	public void setupUi(QMainWindow MainForm) {
 		MainForm.setObjectName("MainForm");
-		MainForm.resize(new QSize(388, 363).expandedTo(MainForm.minimumSizeHint()));
+		MainForm.resize(new QSize(480, 360).expandedTo(MainForm.minimumSizeHint()));
 		MainForm.setWindowIcon(
 				new QIcon(new QPixmap("D:\\Projects\\ClientAppSRM\\resources\\220px-Polytechnic_Lwow_20091.bmp")));
 		centralwidget = new QWidget(MainForm);
